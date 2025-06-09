@@ -1,3 +1,4 @@
+import time
 from bs4 import BeautifulSoup
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -68,6 +69,7 @@ class CouncilClass(AbstractGetBinDataClass):
             driver = create_webdriver(web_driver, headless, None, __name__)
             driver.get(page)
             _LOGGER.info("Page loaded")
+            time.sleep(5)
 
             # Wait for form to be loaded
             _LOGGER.info("Waiting for form to load")
@@ -75,6 +77,7 @@ class CouncilClass(AbstractGetBinDataClass):
                 EC.presence_of_element_located((By.ID, "selfservice-page"))
             )
             _LOGGER.info("Form loaded successfully")
+            time.sleep(5)
 
             # Populate postcode field
             _LOGGER.info("Entering postcode")
@@ -85,6 +88,7 @@ class CouncilClass(AbstractGetBinDataClass):
             )
             inputElement_postcode.send_keys(user_postcode)
             _LOGGER.info(f"Postcode entered: {user_postcode}")
+            time.sleep(5)
 
             # Click search button
             _LOGGER.info("Clicking search button")
@@ -95,6 +99,7 @@ class CouncilClass(AbstractGetBinDataClass):
             )
             search_button.click()
             _LOGGER.info("Search button clicked")
+            time.sleep(5)
 
             # Wait for the 'Select address' dropdown to appear and select option matching UPRN
             _LOGGER.info("Waiting for address dropdown")
@@ -107,6 +112,7 @@ class CouncilClass(AbstractGetBinDataClass):
             dropdownSelect = Select(dropdown)
             dropdownSelect.select_by_value("U" + user_uprn)
             _LOGGER.info(f"Address selected with UPRN: {user_uprn}")
+            time.sleep(5)
 
             # Wait for the submit button to appear, then click it to get the collection dates
             _LOGGER.info("Waiting for submit button")
@@ -117,6 +123,7 @@ class CouncilClass(AbstractGetBinDataClass):
             )
             submit.click()
             _LOGGER.info("Submit button clicked")
+            time.sleep(5)
 
             # Wait for the results to load
             _LOGGER.info("Waiting for results to load")
@@ -126,6 +133,7 @@ class CouncilClass(AbstractGetBinDataClass):
                 )
             )
             _LOGGER.info("Results loaded")
+            time.sleep(5)
 
             soup = BeautifulSoup(driver.page_source, features="html.parser")
             _LOGGER.info("Page source parsed with BeautifulSoup")
